@@ -194,7 +194,7 @@ public class CinemaServiceImpl implements CinemaService {
     }
 
     //封装cinemaInfo
-    private CinemaInfoVO getCinemaInfoVOByCinemaId(Integer cinemaId) {
+    public CinemaInfoVO getCinemaInfoVOByCinemaId(Integer cinemaId) {
         CinemaInfoVO cinemaInfoVO = new CinemaInfoVO();
         MtimeCinemaT mtimeCinemaT = mtimeCinemaTMapper.selectById(cinemaId);//根据影院编号获取影院对象信息
         if (mtimeCinemaT!=null){
@@ -337,7 +337,7 @@ public class CinemaServiceImpl implements CinemaService {
     }
 
     /**
-     * 
+     *
      * @param cinemaGetCinemasVO
      * @return
      */

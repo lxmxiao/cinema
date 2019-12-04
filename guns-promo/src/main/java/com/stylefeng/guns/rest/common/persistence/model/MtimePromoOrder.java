@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author ali
@@ -23,7 +23,7 @@ public class MtimePromoOrder extends Model<MtimePromoOrder> {
     /**
      * 主键id
      */
-    private String uuid;
+    private Integer uuid;
     /**
      * 用户id
      */
@@ -64,11 +64,11 @@ public class MtimePromoOrder extends Model<MtimePromoOrder> {
     private Date endTime;
 
 
-    public String getUuid() {
+    public Integer getUuid() {
         return uuid;
     }
 
-    public void setUuid(String uuid) {
+    public void setUuid(Integer uuid) {
         this.uuid = uuid;
     }
 
