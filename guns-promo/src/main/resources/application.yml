@@ -30,6 +30,11 @@ spring:
       name: dubbo
       port: 20970
 
+mq:
+  nameserver:
+    addr: localhost:9876
+  topic: stock
+
 logging:
   level.root: info
   level.com.stylefeng: debug

@@ -21,8 +21,14 @@ public class PromoController {
     }
 
     @RequestMapping("createOrder")
-    public BaseResponVO createPromoOrder(Integer promoId, Integer amount, String promoToken){
+    public BaseResponVO createPromoOrder(Integer promoId, Integer amount, String promoToken) throws Exception {
         BaseResponVO baseResponVO = promoService.createPromoOrder(promoId,amount,promoToken);
+        return baseResponVO;
+    }
+
+    @RequestMapping("publishPromoStock")
+    public BaseResponVO publishPromoStock(){
+        BaseResponVO baseResponVO = promoService.publishPromoStock();
         return baseResponVO;
     }
 }
