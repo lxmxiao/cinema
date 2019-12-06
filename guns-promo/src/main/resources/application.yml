@@ -1,5 +1,5 @@
 server:
-  port: 10091 #项目端口
+  port: 10099 #项目端口
 
 mybatis-plus:
   mapper-locations: classpath*:com/stylefeng/guns/rest/**/mapping/*.xml
@@ -28,12 +28,15 @@ spring:
     server: true
     protocol:
       name: dubbo
-      port: 20970
+      port: 20999
 
 mq:
   nameserver:
     addr: localhost:9876
-  topic: stock
+  topic: lxmxiao_stock
+  producergroup: producer_group
+  consumergroup: consumer_group
+  transactionproducergroup: transaction_group
 
 logging:
   level.root: info

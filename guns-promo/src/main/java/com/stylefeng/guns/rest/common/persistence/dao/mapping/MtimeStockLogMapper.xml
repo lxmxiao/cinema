@@ -10,4 +10,11 @@
         <result column="status" property="status" />
     </resultMap>
 
+    <update id="updateStatusById">
+      UPDATE mtime_stock_log
+      SET STATUS = #{status}
+      WHERE
+	  uuid = #{uuid}
+    </update>
+
 </mapper>

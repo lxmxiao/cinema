@@ -8,7 +8,7 @@ import java.util.Date;
 @Data
 public class PromoOrderVO implements Serializable {
 
-    private Integer uuid;
+    private String uuid;
     private Integer userId;
     private Integer cinemaId;
     private String exchangeCode;

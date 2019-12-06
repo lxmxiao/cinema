@@ -14,7 +14,7 @@ import java.io.Serializable;
  * @since 2019-12-03
  */
 @TableName("mtime_promo_stock")
-public class MtimePromoStock extends Model<MtimePromoStock> {
+public class MtimePromoStock extends Model<MtimePromoStock> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

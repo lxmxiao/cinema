@@ -23,7 +23,7 @@ public class MtimePromoOrder extends Model<MtimePromoOrder> {
     /**
      * 主键id
      */
-    private Integer uuid;
+    private String uuid;
     /**
      * 用户id
      */
@@ -64,11 +64,11 @@ public class MtimePromoOrder extends Model<MtimePromoOrder> {
     private Date endTime;
 
 
-    public Integer getUuid() {
+    public String getUuid() {
         return uuid;
     }
 
-    public void setUuid(Integer uuid) {
+    public void setUuid(String uuid) {
         this.uuid = uuid;
     }
 
