@@ -133,63 +133,12 @@ public class PromoServiceImpl implements PromoService {
         return new BaseResponVO(0,null,list,null,null,null);
     }
 
-//    /**
-//     * 秒杀下单接口
-//     * @param promoId
-//     * @param amount
-//     * @return
-//     */
-//    @Override
-//    public BaseResponVO createPromoOrder(Integer promoId, Integer amount, String promoToken, UserVO user) throws Exception {
-//
-//        //获得所登录的用户信息
-////        String token = HttpKit.getRequest().getHeader("Authorization").substring(7);
-////        UserVO user = (UserVO) redisTemplate.opsForValue().get(token);
-//        List<MtimePromoStock> promoStockList = (List<MtimePromoStock>) redisTemplate.opsForValue().get("promo_stock");
-//
-//        if (user == null){
-//            return new BaseResponVO(1,null,null,null,null,null);
-//        }
-//
-//        MtimePromo mtimePromo = promoMapper.selectById(promoId);
-//        MtimePromoOrder mtimePromoOrder = new MtimePromoOrder();
-//        mtimePromoOrder.setUuid(user.getUuid());
-//        mtimePromoOrder.setCinemaId(mtimePromo.getCinemaId());
-//        //兑换码还没有
-//
-//        mtimePromoOrder.setAmount(amount);
-//        mtimePromoOrder.setPrice(mtimePromo.getPrice());
-//        //兑换开始时间还没有
-//
-//        mtimePromoOrder.setCreateTime(new Date());
-//        //兑换结束时间还没有
-//
-//        //创建消息队列修改mysql数据库库存
-//        producer.decreaseStock(promoId,amount);
-//
-//        //更改redis中的库存
-//        for (MtimePromoStock mtimePromoStock : promoStockList) {
-//            if (promoId.equals(mtimePromoStock.getPromoId())){
-//                mtimePromoStock.setStock(mtimePromoStock.getStock()-amount);
-//            }
-//        }
-//        redisTemplate.opsForValue().set("promo_stock",promoStockList);
-//
-//        return new BaseResponVO(0,"发布成功");
-//    }
-
     /**
      * 将库存信息发布到缓存
      * @return
      */
     @Override
     public BaseResponVO publishPromoStock() {
-//        List<MtimePromoStock> promoStock = (List<MtimePromoStock>) redisTemplate.opsForValue().get("promo_stock");
-//        if (promoStock == null){
-//            List<MtimePromoStock> mtimePromos = promoStockMapper.selectList(null);
-//            redisTemplate.opsForValue().set("promo_stock",mtimePromos);
-//            redisTemplate.expire("promo_stock",365 * 100, TimeUnit.DAYS);
-//        }
 
         List<MtimePromoStock> mtimePromos = promoStockMapper.selectList(null);
         for (MtimePromoStock mtimePromo : mtimePromos) {
@@ -197,6 +146,9 @@ public class PromoServiceImpl implements PromoService {
                 redisTemplate.opsForValue().set("promo_stock" + mtimePromo.getPromoId(), mtimePromo.getStock());
                 redisTemplate.expire("promo_stock" + mtimePromo.getPromoId(), 365 * 100, TimeUnit.DAYS);
             }
+
+            Integer amountValue = mtimePromo.getStock() * PROMO_TOKEN_TIMES;
+            redisTemplate.opsForValue().set("promo_stock_amount" + mtimePromo.getUuid(),amountValue);
         }
 
 
@@ -297,9 +249,18 @@ public class PromoServiceImpl implements PromoService {
      * @return
      */
     @Override
-    public BaseResponVO generateToken(Integer promoId) {
+    public String generateToken(Integer promoId, UserVO user) {
+        Long remainAmount = redisTemplate.opsForValue().increment("promo_stock_amount" + promoId,-1);
 
-        return null;
+        if (remainAmount < 0) {
+            return null;
+        }
+
+        String uuid = UUID.randomUUID().toString().replaceAll("-","").substring(0,18);
+
+        redisTemplate.opsForValue().set("user_promo_token_" + promoId + "_userId_" + user.getUuid(),uuid);
+
+        return uuid;
     }
 
     //构建返回相应参数

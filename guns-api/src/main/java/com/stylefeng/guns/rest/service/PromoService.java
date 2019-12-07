@@ -19,5 +19,5 @@ public interface PromoService {
 
     PromoOrderVO savePromoOrderVO(Integer promoId, Integer amount, Integer userId, String stockLogId);
 
-    BaseResponVO generateToken(Integer promoId);
+    String generateToken(Integer promoId, UserVO user);
 }
